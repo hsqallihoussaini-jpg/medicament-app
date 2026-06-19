@@ -1,0 +1,17 @@
+# Build artifacts
+backend/build/
+frontend/dist/
+frontend/node_modules/
+
+# Environment files
+.env
+.env.*
+!*.env.example
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Logs
+*.log
