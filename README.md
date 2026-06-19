@@ -86,6 +86,10 @@ Créer [backend/.env.example](backend/.env.example) en `.env` et renseigner :
 Créer [frontend/.env.example](frontend/.env.example) en `.env` et renseigner :
 
 - `VITE_API_BASE_URL=http://localhost:8080`
+- `VITE_SUPABASE_URL` : URL du projet Supabase (Project Settings → API)
+- `VITE_SUPABASE_ANON_KEY` : clé `anon`/publique Supabase
+
+L'accès au frontend est protégé par une authentification Supabase (email/mot de passe). Active l'authentification par email dans ton projet Supabase et, pour déployer sur Vercel, ajoute `VITE_SUPABASE_URL` et `VITE_SUPABASE_ANON_KEY` dans les variables d'environnement du projet.
 
 ## Lancement du backend
 
