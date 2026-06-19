@@ -14,6 +14,7 @@ import {
   shareRappel,
   updateMedicamentStock,
 } from './api/client';
+import { supabase } from './api/supabaseClient';
 import AdherenceStats from './components/AdherenceStats';
 import ChatBox from './components/ChatBox';
 import MedicamentsForm from './components/MedicamentsForm';
@@ -21,7 +22,7 @@ import MedicamentsList from './components/MedicamentsList';
 import PriseHistory from './components/PriseHistory';
 import RendezvousSection from './components/RendezvousSection';
 
-export default function App() {
+export default function App({ session }) {
   const [activeSpace, setActiveSpace] = useState('rappels');
   const [medicaments, setMedicaments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -185,6 +186,10 @@ export default function App() {
     }
   }
 
+  async function handleLogout() {
+    await supabase.auth.signOut();
+  }
+
   async function handleQuestion(question) {
     const data = await askQuestion(question);
     return data?.response || data?.message || 'Réponse vide.';
@@ -219,6 +224,14 @@ export default function App() {
             <p className="hero-text">
               Planifie les prises, visualise ta liste de médicaments et interroge Gemini depuis une seule interface.
             </p>
+            {session?.user?.email ? (
+              <div className="hero-account">
+                <span className="muted">Connecté en tant que {session.user.email}</span>
+                <button type="button" className="ghost-button" onClick={handleLogout}>
+                  Se déconnecter
+                </button>
+              </div>
+            ) : null}
           </div>
 
           <div className="stats-grid">
@@ -227,8 +240,8 @@ export default function App() {
               <span className="stat-label">Médicaments suivis</span>
             </article>
             <article>
-              <span className="stat-value">8080</span>
-              <span className="stat-label">Port backend</span>
+              <span className="stat-value">{rendezvous.length}</span>
+              <span className="stat-label">Rendez-vous planifiés</span>
             </article>
           </div>
         </header>
